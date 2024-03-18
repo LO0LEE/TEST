@@ -1,9 +1,4 @@
 #!/bin/bash
-#SoftEther VPN Server install for Ubuntu/Debian.
-# Copyleft (C) 2019 WhatTheServer - All Rights Reserved
-# Permission to copy and modify is granted under the CopyLeft license
-
-#Update the OS if not already done.
 apt-get -y update && apt-get -y upgrade
 
 #Install essentials
@@ -20,8 +15,6 @@ service ufw stop
 
 #Flush Iptables
 iptables -F && iptables -X
-
-#Grab latest Softether link for Linux x64 from here: http://www.softether-download.com/en.aspx?product=softether
 
 #Use wget to copy it directly onto the server.
 wget https://github.com/SoftEtherVPN/SoftEtherVPN_Stable/releases/download/v4.29-9680-rtm/softether-vpnserver-v4.29-9680-rtm-2019.02.28-linux-x64-64bit.tar.gz
@@ -49,44 +42,11 @@ wget -O /etc/dnsmasq.conf https://raw.githubusercontent.com/LO0LEE/TEST/main/dns
 wget -O /etc/logrotate.d/dnsmasq https://raw.githubusercontent.com/LO0LEE/TEST/main/dnsmasq
 
 shopt -s extglob; NET_INTERFACE=$(ip link | awk -F: '$0 !~ "lo|vir|wl|tap_soft|^[^0-9]"{print $2;getline}'); NET_INTERFACE="${NET_INTERFACE##*( )}"; sed -i s/ens3/"$NET_INTERFACE"/g /etc/dnsmasq.conf; shopt -u extglob;
-
-#ad blocking hosts
-#wget -O /root/updateHosts.sh https://raw.githubusercontent.com/nomadturk/vpn-adblock/master/updateHosts.sh; chmod a+x /root/updateHosts.sh && bash /root/updateHosts.sh;
-
-#Install adblocking cron.
-#command="/root/updateHosts.sh >/dev/null 2>&1"
-#job="0 0 * * * $command"
-#cat <(fgrep -i -v "$command" <(crontab -l)) <(echo "$job") | crontab -
-
-#Grab needed Log purging 
-#wget -O /root/softetherlogpurge.sh https://raw.githubusercontent.com/LO0LEE/TEST/softetherlogpurge.sh; chmod a+x /root/softetherlogpurge.sh;
-
-#Install Log purging.
-#command2="/root/softetherlogpurge.sh >/dev/null 2>&1"
-#job2="* * * * * $command2"
-#cat <(fgrep -i -v "$command2" <(crontab -l)) <(echo "$job2") | crontab -
-
-
 #Grab ipv4 enabling and execute it
 wget -O /root/sysctl-forwarding.sh https://raw.githubusercontent.com/LO0LEE/TEST/main/sysctl-forwarding.sh; chmod a+x /root/sysctl-forwarding.sh && bash /root/sysctl-forwarding.sh;
 
 #Grab base Sofether Iptables rules
 wget -O /root/softether-iptables.sh https://raw.githubusercontent.com/LO0LEE/TEST/main/softether-iptables.sh; chmod a+x /root/softether-iptables.sh;
-# install monit 
-#apt-get install monit
-#systemctl enable monit
-#systemctl start monit
-#systemctl status monit
-#wget -O /etc/monit/monitrc https://raw.githubusercontent.com/LO0LEE/TEST/monit/monitrc
-#wget -O /etc/monit/conf-enabled/openssh-server https://raw.githubusercontent.com/LO0LEE/TEST/monit/openssh-server
-#wget -O /etc/monit/conf-enabled/cron https://raw.githubusercontent.com/LO0LEE/TEST/monit/cron
-#wget -O /etc/monit/conf-enabled/dnsmasq https://raw.githubusercontent.com/LO0LEE/TEST/monit/dnsmasq
-#wget -O /etc/monit/conf-enabled/vpnserver https://raw.githubusercontent.com/LO0LEE/TEST/monit/vpnserver
-#systemctl restart monit
-
-# install webmin
-#wget https://github.com/LO0LEE/TEST/installwb.sh && chmod +x installwb.sh && ./installwb.sh
-
 #Make ethers file for dnsmasq to do static assignments based on Mac Addresses
 touch /etc/ethers
 
