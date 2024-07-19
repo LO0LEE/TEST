@@ -5,7 +5,7 @@ apt-get -y update && apt-get -y upgrade
 apt-get -y install build-essential libssl-dev g++ openssl libpthread-stubs0-dev gcc-multilib dnsmasq
 
 #Backup dnsmasq conf
-mv /etc/dnsmasq.conf /etc/dnsmasq.conf-bak
+sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf-bak
 
 #disable UFW firewall
 ufw disable
