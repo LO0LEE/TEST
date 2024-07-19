@@ -33,20 +33,20 @@ chmod 700 vpncmd
 chmod 700 vpnserver
 
 #grab Softether vpn server.config template
-wget -O /usr/local/vpnserver/vpn_server.config https://github.com/LO0LEE/TEST/main/vpn_server.config
+wget -O /usr/local/vpnserver/vpn_server.config https://github.com/LO0LEE/TEST/blob/main/vpn_server.config
 
 #Create systemd init file for Softether VPN service
-wget -O /lib/systemd/system/vpnserver.service https://github.com/LO0LEE/TEST/main/vpnserver.service
+wget -O /lib/systemd/system/vpnserver.service https://github.com/LO0LEE/TEST/blob/main/vpnserver.service
 #Grab DNSMasq conf
-wget -O /etc/dnsmasq.conf https://raw.githubusercontent.com/LO0LEE/TEST/main/dnsmasq.conf
-wget -O /etc/logrotate.d/dnsmasq https://github.com/LO0LEE/TEST/main/dnsmasq
+wget -O /etc/dnsmasq.conf https://raw.githubusercontent.com/LO0LEE/TEST/blob/main/dnsmasq.conf
+wget -O /etc/logrotate.d/dnsmasq https://github.com/LO0LEE/TEST/blob/main/dnsmasq
 
 shopt -s extglob; NET_INTERFACE=$(ip link | awk -F: '$0 !~ "lo|vir|wl|tap_soft|^[^0-9]"{print $2;getline}'); NET_INTERFACE="${NET_INTERFACE##*( )}"; sed -i s/ens3/"$NET_INTERFACE"/g /etc/dnsmasq.conf; shopt -u extglob;
 #Grab ipv4 enabling and execute it
-wget -O /root/sysctl-forwarding.sh https://github.com/LO0LEE/TEST/main/sysctl-forwarding.sh; chmod a+x /root/sysctl-forwarding.sh && bash /root/sysctl-forwarding.sh;
+wget -O /root/sysctl-forwarding.sh https://github.com/LO0LEE/TEST/blob/main/sysctl-forwarding.sh; chmod a+x /root/sysctl-forwarding.sh && bash /root/sysctl-forwarding.sh;
 
 #Grab base Sofether Iptables rules
-wget -O /root/softether-iptables.sh https://githubu.com/LO0LEE/TEST/main/softether-iptables.sh; chmod a+x /root/softether-iptables.sh;
+wget -O /root/softether-iptables.sh https://githubu.com/LO0LEE/TEST/blob/main/softether-iptables.sh; chmod a+x /root/softether-iptables.sh;
 #Make ethers file for dnsmasq to do static assignments based on Mac Addresses
 touch /etc/ethers
 
